@@ -4,9 +4,10 @@ FILE_NAME = "log.txt"
 
 
 def check_in_file(lines, date):
-    for line in lines:
-        if line[0] == date:
-            return True
+    l = len(lines)
+    for i in range(l):
+        if lines[i][0] == date:
+            return [i]
     return False
 
 
@@ -15,22 +16,16 @@ def generate_line(date, sessions=1):
 
 
 def log():
-    """
-    this function should log the total sessions done in a day
-    if date already exists in the log.txt it shouldnt create a new one
-
-    """
     date = str(d.today())
     with open(FILE_NAME, "r+") as file:
         lines = [x.strip("\n").split(",") for x in file.readlines()]
 
-        if check_in_file(lines, date):
-            for line in lines:
-                if line[0] == date:
-                    line[1] = str(int(line[1]) + 1)
-                    with open(FILE_NAME, "w") as f:
-                        for line in lines:
-                            f.write(generate_line(date, line[1]))
+        if (index := check_in_file(lines, date)):
+            index = index.pop()
+            lines[index][1] = str(int(lines[index][1]) + 1)
+            with open(FILE_NAME, "w") as f:
+                for line in lines:
+                    f.write(generate_line(date, line[1]))
         else:
             line = generate_line(date)
             file.write(line)

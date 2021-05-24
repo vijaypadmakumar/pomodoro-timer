@@ -3,8 +3,8 @@ from log import log
 
 
 def timer():
-    work_time = 25 * 60
-    break_time = 5 * 60
+    work_time = 0
+    break_time = 0
     while work_time:
         mins, secs = divmod(work_time, 60)
         work_timer = f"{mins}:{secs}"
